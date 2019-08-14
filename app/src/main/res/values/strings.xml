@@ -1,6 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BoardGameAcademy</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">桌游学院</string>
+    <string name="dialog_positive">确定</string>
+    <string name="dialog_negative">取消</string>
 </resources>
