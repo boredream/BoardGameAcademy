@@ -1,9 +1,9 @@
 package com.boredream.bga.fragment;
 
 
-import android.widget.RadioGroup;
-
-import com.boredream.bga.activity.BaseActivity;
+import com.boredream.bga.R;
+import com.boredream.bga.activity.MainActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -15,13 +15,13 @@ import androidx.fragment.app.FragmentTransaction;
  */
 public class FragmentController {
 
-    private RadioGroup rg;
+    private BottomNavigationView nav;
     private int containerId;
     private FragmentManager fm;
     private ArrayList<BaseFragment> fragments;
 
-    public FragmentController(BaseActivity activity, RadioGroup rg, int containerId, ArrayList<BaseFragment> fragments) {
-        this.rg = rg;
+    public FragmentController(MainActivity activity, BottomNavigationView nav, int containerId, ArrayList<BaseFragment> fragments) {
+        this.nav = nav;
         this.containerId = containerId;
         this.fragments = fragments;
         this.fm = activity.getSupportFragmentManager();
@@ -33,10 +33,22 @@ public class FragmentController {
         for (int i = 0; i < fragments.size(); i++) {
             ft.add(containerId, fragments.get(i), String.valueOf(i));
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
 
-        rg.setOnCheckedChangeListener((group, checkedId) ->
-                showFragment(rg.indexOfChild(rg.findViewById(checkedId))));
+        nav.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    showFragment(0);
+                    return true;
+                case R.id.navigation_dashboard:
+                    showFragment(1);
+                    return true;
+                case R.id.navigation_notifications:
+                    showFragment(2);
+                    return true;
+            }
+            return false;
+        });
     }
 
     public void showFragment(int position) {
@@ -44,7 +56,7 @@ public class FragmentController {
         BaseFragment fragment = fragments.get(position);
         FragmentTransaction ft = fm.beginTransaction();
         ft.show(fragment);
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     public void hideFragments() {

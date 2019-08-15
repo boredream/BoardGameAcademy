@@ -1,6 +1,7 @@
 package com.boredream.bga.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -42,10 +43,10 @@ public class TitleBar extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_titlebar, this);
         ButterKnife.bind(this);
 
-//        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleBar);
-//        String aa = a.getString(R.styleable.TitleBar_title);
-//        tv.setText(aa);
-//        a.recycle();
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleBar);
+        String aa = a.getString(R.styleable.TitleBar_title);
+        titleTv.setText(aa);
+        a.recycle();
     }
 
     public void setTitle(CharSequence title) {

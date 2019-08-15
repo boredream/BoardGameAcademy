@@ -5,13 +5,17 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.boredream.bga.R;
+import com.boredream.bga.fragment.BaseFragment;
+import com.boredream.bga.fragment.FragmentController;
+import com.boredream.bga.fragment.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.fl_content)
     FrameLayout flContent;
@@ -20,17 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.container)
     LinearLayout container;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener listener = item -> {
-        switch (item.getItemId()) {
-            case R.id.navigation_home:
-                return true;
-            case R.id.navigation_dashboard:
-                return true;
-            case R.id.navigation_notifications:
-                return true;
-        }
-        return false;
-    };
+    private FragmentController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +37,13 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         ButterKnife.bind(this);
 
-        navigation.setOnNavigationItemSelectedListener(listener);
+        ArrayList<BaseFragment> fragments = new ArrayList<>();
+        fragments.add(new MainFragment());
+        fragments.add(new MainFragment());
+        fragments.add(new MainFragment());
+
+        controller = new FragmentController(this, navigation, R.id.fl_content, fragments);
+        controller.showFragment(0);
     }
 
 }
