@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Toast;
 
 import com.boredream.bga.BaseApplication;
 import com.boredream.bga.BaseView;
 import com.boredream.bga.R;
 import com.boredream.bga.constants.CommonConstants;
+import com.boredream.bga.constants.ErrorConstants;
 import com.boredream.bga.utils.DialogUtils;
 import com.boredream.bga.utils.TintBarUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -69,11 +71,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseVi
     }
 
     @Override
-    public Activity getViewContext() {
-        return this;
-    }
-
-    @Override
     public void showTip(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
@@ -114,6 +111,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseVi
         }
         if (loadMore) refreshLayout.finishLoadmore(200);
         else refreshLayout.finishRefresh();
+    }
+
+    @Override
+    public boolean handleError(Pair<String, String> throwable) {
+        return false;
     }
 
     /**

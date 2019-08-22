@@ -1,5 +1,7 @@
 package com.boredream.bga.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -25,6 +27,10 @@ public class MainActivity extends BaseActivity {
     LinearLayout container;
 
     private FragmentController controller;
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,9 +3,15 @@ package com.boredream.bga.entity;
 
 public class User extends BaseEntity {
 
+    // fire base
+    private String email;
     private String password;
-    private String sessionToken;
-    private String username;
+    private boolean returnSecureToken;
+    private String idToken;
+    private String localId;
+
+    // customer
+    private String nickname;
     private String avatar;
     private int gender;
     private int age;
@@ -25,20 +31,44 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public String getSessionToken() {
-        return sessionToken;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSessionToken(String sessionToken) {
-        this.sessionToken = sessionToken;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean isReturnSecureToken() {
+        return returnSecureToken;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setReturnSecureToken(boolean returnSecureToken) {
+        this.returnSecureToken = returnSecureToken;
+    }
+
+    public String getIdToken() {
+        return idToken;
+    }
+
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
+    }
+
+    public String getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(String localId) {
+        this.localId = localId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getAvatar() {

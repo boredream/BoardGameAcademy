@@ -8,6 +8,8 @@ public class CommonConstants {
     private CommonConstants() {
     }
 
+    public static final String API_KEY = "AIzaSyBGDd1k4tL4lJqVygYNJC6VWxCbvaH95BY";
+
     /**
      * SharedPreferences 名称
      */

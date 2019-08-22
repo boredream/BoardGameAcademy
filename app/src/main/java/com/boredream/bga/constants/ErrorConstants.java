@@ -1,11 +1,13 @@
 package com.boredream.bga.constants;
 
-import android.content.Context;
 import android.os.NetworkOnMainThreadException;
+import android.util.Pair;
 
 import com.boredream.bga.utils.NetUtils;
-import com.boredream.bga.utils.StringUtils;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 
 import java.io.EOFException;
 import java.net.ConnectException;
@@ -18,61 +20,78 @@ import retrofit2.HttpException;
 
 public class ErrorConstants {
 
+    public static final String CODE_CUSTOMER = "CODE_CUSTOMER";
+
+    public static final String ERROR_EMAIL_EXISTS = "EMAIL_EXISTS";
+    public static final String EMAIL_NOT_FOUND = "EMAIL_NOT_FOUND";
+
     /**
      * 解析服务器错误信息
      */
-    public static String parseHttpErrorInfo(Context context, Throwable throwable) {
-        String errorInfo = throwable.getMessage();
+    public static Pair<String, String> parseHttpErrorInfo(Throwable throwable) {
+        Pair<String, String> pair = null;
 
-        if (!NetUtils.isConnected(context)) {
-            errorInfo = "网络未连接";
+        if (!NetUtils.isConnected(AppKeeper.getApp())) {
+            pair = new Pair<>(CODE_CUSTOMER, "网络未连接");
         } else if (throwable instanceof HttpException) {
-            // 如果是Retrofit的Http错误,则转换类型,获取信息
-            HttpException exception = (HttpException) throwable;
-            ResponseBody responseBody = exception.response().errorBody();
-            MediaType type = responseBody.contentType();
+            try {
+                // 如果是Retrofit的Http错误,则转换类型,获取信息
+                HttpException exception = (HttpException) throwable;
+                ResponseBody responseBody = exception.response().errorBody();
+                MediaType type = responseBody.contentType();
 
-            // FIXME: 2019/8/14
-            // 如果是application/json类型数据,则解析返回内容
-//            String leanError = null;
-//            if (type != null && type.type().equals("application") && type.subtype().equals("json")) {
-//                try {
-//                    // 这里的返回内容是Bmob/AVOS/Parse等RestFul API文档中的错误代码和错误信息对象
-//                    ErrorResponse errorResponse = new Gson().fromJson(responseBody.string(), ErrorResponse.class);
-//                    String errorStr = errorResponse.getError();
-//                    if(StringUtils.isContainChinese(errorStr)) {
-//                        leanError = errorStr;
-//                    } else {
-//                        leanError = errorResponse.getCode() + " : " + errorStr;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            if (StringUtils.isEmpty(leanError)) {
-//                errorInfo = "服务器错误" + exception.code();
-//            } else {
-//                errorInfo = leanError;
-//            }
+                // 如果是application/json类型数据,则解析返回内容
+                if (type != null && type.type().equals("application") && type.subtype().equals("json")) {
+                    // 业务类错误
+                    JsonElement errorJe = new JsonParser().parse(responseBody.string());
+                    JsonObject errorJo = errorJe.getAsJsonObject().get("error").getAsJsonObject();
+
+                    String message = errorJo.get("message").getAsString();
+                    if (message != null) {
+                        pair = new Pair<>(message, getFireBaseErrorChn(message));
+                    }
+                }
+            } catch (Exception e) {
+                //
+            }
+            if (pair == null) {
+                pair = new Pair<>(CODE_CUSTOMER, "服务器错误 " + throwable.toString());
+            }
         } else if (throwable instanceof NetworkOnMainThreadException) {
-            errorInfo = "网络请求不能在主线程";
+            pair = new Pair<>(CODE_CUSTOMER, "网络请求不能在主线程");
         } else if (throwable instanceof ConnectException) {
-            errorInfo = "无法连接服务器";
+            pair = new Pair<>(CODE_CUSTOMER, "无法连接服务器");
         } else if (throwable instanceof UnknownHostException) {
-            errorInfo = "服务器连接失败";
+            pair = new Pair<>(CODE_CUSTOMER, "服务器连接失败");
         } else if (throwable instanceof SocketTimeoutException) {
-            errorInfo = "服务器连接超时";
+            pair = new Pair<>(CODE_CUSTOMER, "服务器连接超时");
         } else if (throwable.getMessage().equals("The mapper function returned a null value.")
                 || throwable instanceof JsonParseException
                 || throwable instanceof EOFException) {
-            errorInfo = "数据解析错误 " + throwable.getMessage();
+            pair = new Pair<>(CODE_CUSTOMER, "数据解析错误 " + throwable.getMessage());
         }
 
         // 缺省处理
-        if (StringUtils.isEmpty(errorInfo)) {
-            errorInfo = "未知错误 " + throwable.getMessage();
+        if (pair == null || pair.first == null || pair.second == null) {
+            pair = new Pair<>(CODE_CUSTOMER, "未知错误 " + throwable.toString());
         }
 
-        return errorInfo;
+        return pair;
+    }
+
+    private static String getFireBaseErrorChn(String message) {
+        String chn = message;
+        switch (message) {
+            case ERROR_EMAIL_EXISTS:
+                // TODO: chunyang 2019-08-22
+                // chn = "";
+                break;
+        }
+        return chn;
+    }
+
+    public static boolean isTarError(Pair<String, String> pair, String errorMessage) {
+        if (pair == null || pair.first == null) return false;
+        return pair.first.equals(errorMessage);
     }
 }

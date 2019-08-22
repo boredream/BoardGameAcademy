@@ -4,6 +4,8 @@ import android.content.Context;
 
 public class AppKeeper {
 
+    public static boolean isNormalEnter;
+
     private AppKeeper() {
 
     }

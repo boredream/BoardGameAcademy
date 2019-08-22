@@ -1,13 +1,11 @@
 package com.boredream.bga;
 
-import android.app.Activity;
+import android.util.Pair;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
 public interface BaseView {
-
-    Activity getViewContext();
 
     void showTip(String msg);
 
@@ -22,5 +20,7 @@ public interface BaseView {
     void showRefresh(boolean loadMore);
 
     void dismissRefresh(boolean loadMore);
+
+    boolean handleError(Pair<String, String> throwable);
 
 }

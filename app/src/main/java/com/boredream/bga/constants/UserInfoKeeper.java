@@ -13,14 +13,31 @@ import com.google.gson.Gson;
  */
 public class UserInfoKeeper {
 
-    private static User currentUser;
+    private static volatile UserInfoKeeper instance = null;
+
+    public static UserInfoKeeper getInstance() {
+        if (instance == null) {
+            synchronized (UserInfoKeeper.class) {
+                if (instance == null) {
+                    instance = new UserInfoKeeper();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private UserInfoKeeper() {
+        sp = AppKeeper.getApp().getSharedPreferences(CommonConstants.SP_NAME, Context.MODE_PRIVATE);
+    }
+
+    private SharedPreferences sp;
+    private User currentUser;
 
     /**
      * 获取当前登录用户
      */
-    public static User getCurrentUser() {
+    public User getCurrentUser() {
         if (currentUser == null) {
-            SharedPreferences sp = AppKeeper.getApp().getSharedPreferences(CommonConstants.SP_NAME, Context.MODE_PRIVATE);
             String json = sp.getString("user", null);
             if (!StringUtils.isEmpty(json)) {
                 try {
@@ -36,7 +53,7 @@ public class UserInfoKeeper {
     /**
      * 保存设置当前登录用户
      */
-    public static void setCurrentUser(User user) {
+    public void setCurrentUser(User user) {
         // 密码信息不保存
         user.setPassword(null);
 
@@ -48,23 +65,23 @@ public class UserInfoKeeper {
     /**
      * 清空当前登录用户
      */
-    public static void clearCurrentUser() {
+    public void clearCurrentUser() {
         currentUser = null;
         SharedPreferences sp = AppKeeper.getApp().getSharedPreferences(CommonConstants.SP_NAME, Context.MODE_PRIVATE);
         sp.edit().remove("user").apply();
     }
 
-    public static String getToken() {
+    public String getToken() {
         // 统一Header配置时用的token,没有的话要用空字符串,不能为null
         String token = "";
         User user = getCurrentUser();
-        if (user != null && user.getSessionToken() != null) {
-            token = user.getSessionToken();
-        }
+//        if (user != null && user.getSessionToken() != null) {
+//            token = user.getSessionToken();
+//        }
         return token;
     }
 
-    public static boolean isLogin() {
+    public boolean isLogin() {
         return getCurrentUser() != null;
     }
 
@@ -73,7 +90,7 @@ public class UserInfoKeeper {
      *
      * @return true-已登录 false-未登录,会自动跳转至登录页
      */
-//    public static boolean checkLogin(Context context) {
+//    public boolean checkLogin(Context context) {
 //        if (!isLogin()) {
 //            LoginActivity.start(context);
 //            return false;

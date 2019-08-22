@@ -1,8 +1,8 @@
 package com.boredream.bga.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 
 import com.boredream.bga.BaseView;
 import com.boredream.bga.activity.BaseActivity;
@@ -28,11 +28,6 @@ public class BaseFragment extends RxFragment implements BaseView {
 
     public void showLog(String msg) {
         Log.i(TAG, msg);
-    }
-
-    @Override
-    public Activity getViewContext() {
-        return activity;
     }
 
     @Override
@@ -76,5 +71,10 @@ public class BaseFragment extends RxFragment implements BaseView {
         }
         if (loadMore) refreshLayout.finishLoadmore(200);
         else refreshLayout.finishRefresh();
+    }
+
+    @Override
+    public boolean handleError(Pair<String, String> throwable) {
+        return activity.handleError(throwable);
     }
 }
