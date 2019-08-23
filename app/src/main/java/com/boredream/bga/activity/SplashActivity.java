@@ -11,8 +11,16 @@ import android.widget.Toast;
 
 import com.boredream.bga.R;
 import com.boredream.bga.constants.AppKeeper;
+import com.boredream.bga.constants.UserInfoKeeper;
+import com.boredream.bga.entity.User;
+import com.boredream.bga.net.HttpRequest;
+import com.boredream.bga.net.RxComposer;
+import com.boredream.bga.net.SimpleDisObserver;
+import com.boredream.bga.utils.CollectionUtils;
 import com.boredream.bga.utils.DialogUtils;
 import com.yanzhenjie.permission.AndPermission;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,11 +89,28 @@ public class SplashActivity extends BaseActivity {
 
     private void startLogin() {
         startLoginTime = SystemClock.elapsedRealtime();
-        // 自动登陆过
-        loginComplete();
+        // 自动登陆
+        User user = new User();
+        user.setIdToken(UserInfoKeeper.getInstance().getToken());
+
+        HttpRequest.getInstance()
+                .getApiService()
+                .lookup(user)
+                .compose(RxComposer.commonSilence(this))
+                .subscribe(new SimpleDisObserver<ArrayList<User>>() {
+                    @Override
+                    public void onNext(ArrayList<User> users) {
+                        loginComplete(!CollectionUtils.isEmpty(users) ? users.get(0) : null);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        loginComplete(null);
+                    }
+                });
     }
 
-    private void loginComplete() {
+    private void loginComplete(User user) {
         long delayTime = SystemClock.elapsedRealtime() - startLoginTime;
         if (delayTime > DUR_TIME_MIN) {
             delayTime = 0;
@@ -93,11 +118,14 @@ public class SplashActivity extends BaseActivity {
             delayTime = DUR_TIME_MIN - delayTime;
         }
 
-        ivSplash.postDelayed(this::onNext, delayTime);
-    }
-
-    private void onNext() {
-        finish();
-        LoginActivity.start(this);
+        ivSplash.postDelayed(() -> {
+            finish();
+            if(user != null) {
+                UserInfoKeeper.getInstance().setCurrentUser(user);
+                MainActivity.start(this);
+            } else {
+                LoginActivity.start(this);
+            }
+        }, delayTime);
     }
 }

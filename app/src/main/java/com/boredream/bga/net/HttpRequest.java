@@ -4,6 +4,7 @@ package com.boredream.bga.net;
 import com.boredream.bga.constants.CommonConstants;
 import com.boredream.bga.entity.User;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -90,6 +91,10 @@ public class HttpRequest {
 
         @POST("/v1/accounts:signUp")
         Observable<User> signUp(
+                @Body User user);
+
+        @POST("/v1/accounts:lookup")
+        Observable<ArrayList<User>> lookup(
                 @Body User user);
 
     }

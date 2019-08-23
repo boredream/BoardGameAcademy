@@ -22,10 +22,9 @@ public class RxComposer {
     /**
      * 常规显示进度框样式
      */
-    public static <T> ObservableTransformer<T, T> noProgress(final BaseView view) {
+    public static <T> ObservableTransformer<T, T> commonSilence(final BaseView view) {
         return upstream -> upstream.compose(schedulers())
-                .compose(lifecycle(view))
-                .compose(defaultFailed(view));
+                .compose(lifecycle(view));
     }
 
     /**

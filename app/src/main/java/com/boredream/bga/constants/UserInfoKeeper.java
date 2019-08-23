@@ -75,9 +75,9 @@ public class UserInfoKeeper {
         // 统一Header配置时用的token,没有的话要用空字符串,不能为null
         String token = "";
         User user = getCurrentUser();
-//        if (user != null && user.getSessionToken() != null) {
-//            token = user.getSessionToken();
-//        }
+        if (user != null && user.getIdToken() != null) {
+            token = user.getIdToken();
+        }
         return token;
     }
 

@@ -37,9 +37,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="10dp"
-        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:hint="请输入账号"
-        android:maxEms="15" />
+        android:hint="请输入账号" />
 
     <RelativeLayout
         android:layout_width="match_parent"

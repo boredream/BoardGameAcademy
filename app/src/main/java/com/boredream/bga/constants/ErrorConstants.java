@@ -22,6 +22,8 @@ public class ErrorConstants {
 
     public static final String CODE_CUSTOMER = "CODE_CUSTOMER";
 
+    public static final String INVALID_EMAIL = "INVALID_EMAIL";
+    public static final String INVALID_PASSWORD = "INVALID_PASSWORD";
     public static final String ERROR_EMAIL_EXISTS = "EMAIL_EXISTS";
     public static final String EMAIL_NOT_FOUND = "EMAIL_NOT_FOUND";
 
@@ -82,9 +84,11 @@ public class ErrorConstants {
     private static String getFireBaseErrorChn(String message) {
         String chn = message;
         switch (message) {
-            case ERROR_EMAIL_EXISTS:
-                // TODO: chunyang 2019-08-22
-                // chn = "";
+            case INVALID_EMAIL:
+                chn = "邮箱地址格式错误";
+                break;
+            case INVALID_PASSWORD:
+                chn = "密码错误";
                 break;
         }
         return chn;
