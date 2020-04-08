@@ -1,5 +1,9 @@
 package com.boredream.bga.utils;
 
+import com.boredream.bga.entity.Classroom;
+import com.boredream.bga.entity.User;
+import com.boredream.bga.entity.UserProfile;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -7,6 +11,29 @@ import java.util.List;
 import java.util.Random;
 
 public class MockUtils {
+
+    public static UserProfile getUserProfile() {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setNickname("三老师");
+
+        // TODO: chunyang 2019-08-26 long lant
+        return userProfile;
+    }
+
+    public static Classroom getClassroom() {
+        Classroom classroom = new Classroom();
+        classroom.setName("仙人掌分院");
+        classroom.setProvince("上海市");
+        classroom.setCity("上海市");
+        classroom.setDistrict("静安区");
+        classroom.setAddress("xxx路仙人掌餐厅");
+        classroom.setSeatCount(50);
+
+        // TODO: chunyang 2019-08-26 long lant
+
+        classroom.setTeacher(getUserProfile());
+        return classroom;
+    }
 
     public static String getImgUrl() {
         List<String> imgs = new ArrayList<>();

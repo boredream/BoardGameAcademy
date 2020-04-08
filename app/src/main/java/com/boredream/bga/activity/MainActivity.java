@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.boredream.bga.R;
+import com.boredream.bga.fragment.ActFragment;
 import com.boredream.bga.fragment.BaseFragment;
 import com.boredream.bga.fragment.FragmentController;
 import com.boredream.bga.fragment.MainFragment;
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         ArrayList<BaseFragment> fragments = new ArrayList<>();
-        fragments.add(new MainFragment());
+        fragments.add(new ActFragment());
         fragments.add(new MainFragment());
         fragments.add(new MainFragment());
 

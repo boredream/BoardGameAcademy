@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.boredream.bga.entity.User;
+import com.boredream.bga.entity.UserProfile;
 import com.boredream.bga.utils.StringUtils;
 import com.google.gson.Gson;
 
@@ -48,6 +49,17 @@ public class UserInfoKeeper {
             }
         }
         return currentUser;
+    }
+
+    /**
+     * 获取当前登录用户 缩略信息
+     */
+    public UserProfile getCurrentUserProfile() {
+        User currentUser = getCurrentUser();
+        if(currentUser != null) {
+            return new Gson().fromJson(new Gson().toJson(currentUser), UserProfile.class);
+        }
+        return null;
     }
 
     /**

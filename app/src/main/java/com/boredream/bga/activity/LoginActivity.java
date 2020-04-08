@@ -49,6 +49,10 @@ public class LoginActivity extends BaseActivity {
 
         initExtras();
         initView();
+
+        // FIXME: 2019-08-26
+        etUsername.setText("48262906@qq.com");
+        etPassword.setText("123456");
     }
 
     private void initExtras() {

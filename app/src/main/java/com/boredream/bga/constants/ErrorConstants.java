@@ -85,10 +85,13 @@ public class ErrorConstants {
         String chn = message;
         switch (message) {
             case INVALID_EMAIL:
-                chn = "邮箱地址格式错误";
+                chn = "邮箱格式错误";
                 break;
             case INVALID_PASSWORD:
                 chn = "密码错误";
+                break;
+            case ERROR_EMAIL_EXISTS:
+                chn = "邮箱已经存在";
                 break;
         }
         return chn;

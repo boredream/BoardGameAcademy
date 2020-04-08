@@ -1,19 +1,15 @@
 package com.boredream.bga.entity;
 
 
-public class User extends BaseEntity {
+public class User extends UserProfile {
 
     // fire base
     private String email;
     private String password;
     private boolean returnSecureToken;
     private String idToken;
-    private String localId;
 
     // customer
-    private String nickname;
-    private String avatar;
-    private int gender;
     private int age;
     private String province;
     private String city;
@@ -53,38 +49,6 @@ public class User extends BaseEntity {
 
     public void setIdToken(String idToken) {
         this.idToken = idToken;
-    }
-
-    public String getLocalId() {
-        return localId;
-    }
-
-    public void setLocalId(String localId) {
-        this.localId = localId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
     }
 
     public int getAge() {

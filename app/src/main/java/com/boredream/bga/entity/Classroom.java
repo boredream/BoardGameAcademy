@@ -5,7 +5,8 @@ package com.boredream.bga.entity;
  */
 public class Classroom extends BaseEntity {
 
-    private User teacher;
+    private String name;
+    private UserProfile teacher;
     private String province;
     private String city;
     private String district;
@@ -14,11 +15,19 @@ public class Classroom extends BaseEntity {
     private double latitude;
     private int seatCount;
 
-    public User getTeacher() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public UserProfile getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(User teacher) {
+    public void setTeacher(UserProfile teacher) {
         this.teacher = teacher;
     }
 

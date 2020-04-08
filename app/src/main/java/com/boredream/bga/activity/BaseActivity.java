@@ -37,7 +37,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements BaseVi
         super.onCreate(savedInstanceState);
 
         setScreenOrientation();
-        TintBarUtils.setWindowStatusBar(this, R.color.trans, true, true);
+        // TintBarUtils.setWindowStatusBar(this, R.color.trans, true, true);
 
         // 如果是退出应用flag,则直接关闭当前页面,不加载UI
         boolean exit = getIntent().getBooleanExtra("exit", false);

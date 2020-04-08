@@ -143,6 +143,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     implementation 'com.yanzhenjie:permission:2.0.0-rc12'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.haibin:calendarview:3.6.7'
 
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'

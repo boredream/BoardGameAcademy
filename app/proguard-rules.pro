@@ -154,6 +154,20 @@
 -dontwarn rx.**
 -dontwarn com.trello.rxlifecycle2.**
 
+# calendar
+-keep class your project path.MonthView {
+    public <init>(android.content.Context);
+}
+-keep class your project path.WeekBar {
+    public <init>(android.content.Context);
+}
+-keep class your project path.WeekView {
+    public <init>(android.content.Context);
+}
+-keep class your project path.YearView {
+    public <init>(android.content.Context);
+}
+
 #项目中不需要混淆的
 -keep class com.boredream.bga.entity.**{*;}
 -keep class com.boredream.bga.constants.**{*;}

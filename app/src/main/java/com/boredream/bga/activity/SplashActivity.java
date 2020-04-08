@@ -13,6 +13,7 @@ import com.boredream.bga.R;
 import com.boredream.bga.constants.AppKeeper;
 import com.boredream.bga.constants.UserInfoKeeper;
 import com.boredream.bga.entity.User;
+import com.boredream.bga.entity.UserLookupResponse;
 import com.boredream.bga.net.HttpRequest;
 import com.boredream.bga.net.RxComposer;
 import com.boredream.bga.net.SimpleDisObserver;
@@ -97,10 +98,10 @@ public class SplashActivity extends BaseActivity {
                 .getApiService()
                 .lookup(user)
                 .compose(RxComposer.commonSilence(this))
-                .subscribe(new SimpleDisObserver<ArrayList<User>>() {
+                .subscribe(new SimpleDisObserver<UserLookupResponse>() {
                     @Override
-                    public void onNext(ArrayList<User> users) {
-                        loginComplete(!CollectionUtils.isEmpty(users) ? users.get(0) : null);
+                    public void onNext(UserLookupResponse response) {
+                        onLookupSuccess(response);
                     }
 
                     @Override
@@ -108,6 +109,17 @@ public class SplashActivity extends BaseActivity {
                         loginComplete(null);
                     }
                 });
+    }
+
+    private void onLookupSuccess(UserLookupResponse response) {
+        ArrayList<UserLookupResponse.FirebaseUser> users = response.getUsers();
+
+        User user = null;
+        if (!CollectionUtils.isEmpty(users)) {
+            // TODO: chunyang 2019-08-26 update info
+            user = UserInfoKeeper.getInstance().getCurrentUser();
+        }
+        loginComplete(user);
     }
 
     private void loginComplete(User user) {
@@ -120,7 +132,7 @@ public class SplashActivity extends BaseActivity {
 
         ivSplash.postDelayed(() -> {
             finish();
-            if(user != null) {
+            if (user != null) {
                 UserInfoKeeper.getInstance().setCurrentUser(user);
                 MainActivity.start(this);
             } else {

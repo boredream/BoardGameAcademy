@@ -22,4 +22,14 @@
         android:scaleType="center"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/title_iv_right"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="center"
+        android:visibility="gone" />
+
 </RelativeLayout>

@@ -5,7 +5,7 @@ package com.boredream.bga.entity;
  */
 public class Course extends BaseEntity {
 
-    private User assistant;
+    private UserProfile assistant;
     private Classroom classroom;
     private String date;
     private long startTime;
@@ -15,11 +15,11 @@ public class Course extends BaseEntity {
      */
     private int grade;
 
-    public User getAssistant() {
+    public UserProfile getAssistant() {
         return assistant;
     }
 
-    public void setAssistant(User assistant) {
+    public void setAssistant(UserProfile assistant) {
         this.assistant = assistant;
     }
 

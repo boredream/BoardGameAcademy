@@ -8,21 +8,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.boredream.bga.R;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by chunyangli on 2018/1/31.
- */
 public class TitleBar extends FrameLayout {
 
     @BindView(R.id.title_tv)
     TextView titleTv;
     @BindView(R.id.title_iv_left)
     ImageView titleIvLeft;
+    @BindView(R.id.title_iv_right)
+    ImageView titleIvRight;
 
     public TitleBar(Context context) {
         super(context);
@@ -49,8 +49,16 @@ public class TitleBar extends FrameLayout {
         a.recycle();
     }
 
-    public void setTitle(CharSequence title) {
+    public TitleBar setTitle(CharSequence title) {
         titleTv.setText(title);
+        return this;
+    }
+
+    public TitleBar setRightIv(int resId, OnClickListener listener) {
+        titleIvRight.setVisibility(VISIBLE);
+        titleIvRight.setImageResource(resId);
+        titleIvRight.setOnClickListener(listener);
+        return this;
     }
 
 }
